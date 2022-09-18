@@ -1,3 +1,4 @@
+from itertools import product
 from django.db import models
 
 
@@ -28,3 +29,13 @@ class Messages(models.Model):
     mime_type = models.CharField(max_length=30,default="")
     media_id = models.CharField(max_length=60,default="")
     img_path = models.CharField(max_length=60,default="") 
+    
+    
+class Products(models.Model):
+    order_id = models.ForeignKey(Messages, null=True, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
+    product_idd = models.CharField(max_length=100,blank=True)
+    product_quantity = models.CharField(max_length=100,blank=True)
+    catalog_idd = models.CharField(max_length=100,blank=True)
+    currency = models.CharField(max_length=10,blank=True)
+    item_pricee = models.CharField(max_length=100,blank=True)

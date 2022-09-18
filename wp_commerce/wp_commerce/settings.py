@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'shopify.urls'
+ROOT_URLCONF = 'wp_commerce.urls'
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'shopify.wsgi.application'
+WSGI_APPLICATION = 'wp_commerce.wsgi.application'
 
 
 # Database

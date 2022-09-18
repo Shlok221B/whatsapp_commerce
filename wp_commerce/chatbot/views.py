@@ -1,10 +1,11 @@
 from itertools import product
+from locale import currency
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
-from chatbot.models import Contacts, Messages
+from chatbot.models import Contacts, Messages, Products
 from django.http import HttpResponse
 from datetime import datetime
-from . commerce_bot import commerce_bot
+# from . commerce_bot import commerce_bot
 
 url1= "https://13.234.238.141:9090"
 admin_password = "Khairnar@123"
@@ -63,35 +64,60 @@ def webhook(request):
                         interactive_id=interactive_id
                     )
                 elif mess["type"] == "order":
+                    print("Start")
                     frm = mess["from"]
                     id = mess["id"]
                     order = mess["order"]
                     catalog_id = order["catalog_id"]
-                    product_items = catalog_id["product_items"]
+                    print("88Start88")
+                    product_items = mess["order"]["product_items"]
                     products = []
                     prices = []
                     
-                    #inside
-                    for i in product_items:
-                        ######## Product Retailer ID ############
-                        product = (i["product_retailer_id"])
-                        products.append(product)
-                        ####### Price ######################
-                        price = (i["item_price"])
-                        prices.append(price)
-                        
+                    
 
                     msg = Messages.objects.create(
                         wa_id=wa_id,
                         msg_id=mess["id"],
                         catalog_id = catalog_id,
-                        curr = curr,
-                        item_price = item_price,
-                        product_id = product_id,
-                        quantity = quantity
+                        
 
+                    
+                   
                     )
-
+       
+                     #inside
+                    for i in product_items:
+                        ######## Product Retailer ID ############
+                        product = i["product_retailer_id"]
+                        
+                        ####### Price ######################
+                        price = i["item_price"]
+                          
+                        ######quantity######
+                        quantityy = i["quantity"] 
+                        
+                        itemprice = i["item_price"]
+                        currency = i["currency"]
+                        print(product_items)
+                        
+                        pro = Products.objects.create(
+                        order_id = msg,
+                        product_idd = product,
+                        product_quantity = quantityy,
+                        catalog_idd = catalog_id,
+                        item_pricee = itemprice,
+                        currency = currency
+                        
+                        
+            
+                        
+                        
+                        
+                    )
+                        
+                    
+                        
 
 
 
@@ -100,8 +126,9 @@ def webhook(request):
                 print(e)
             try:
 
-                ca = commerce_bot(cont_inst, msg)
-                ca.check_and_send()
+                # ca = commerce_bot(cont_inst, msg)
+                # ca.check_and_send()
+                pass
             except Exception as e:
                 print(e)
         return JsonResponse({"success": "Cool"}, status=200)
