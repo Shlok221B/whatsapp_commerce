@@ -39,3 +39,9 @@ class Products(models.Model):
     catalog_idd = models.CharField(max_length=100,blank=True)
     currency = models.CharField(max_length=10,blank=True)
     item_pricee = models.CharField(max_length=100,blank=True)
+
+class MasterProducts(models.Model):
+    product_id = models.CharField(max_length=100,blank=True)
+    product_name = models.CharField(max_length=100,blank=True)
+    price = models.CharField(max_length=100,blank=True)
+

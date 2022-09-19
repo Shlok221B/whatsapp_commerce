@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from chatbot.models import Contacts, Messages, Products
 from django.http import HttpResponse
 from datetime import datetime
-# from . commerce_bot import commerce_bot
+from . commerce_bot import commcerce_bot
 
 url1= "https://13.234.238.141:9090"
 admin_password = "Khairnar@123"
@@ -126,8 +126,8 @@ def webhook(request):
                 print(e)
             try:
 
-                # ca = commerce_bot(cont_inst, msg)
-                # ca.check_and_send()
+                ca = commcerce_bot(cont_inst, msg)
+                ca.check_and_send()
                 pass
             except Exception as e:
                 print(e)
