@@ -66,6 +66,7 @@ def webhook(request):
                 elif mess["type"] == "order":
                     print("Start")
                     frm = mess["from"]
+                    msg_type=mess["type"]
                     id = mess["id"]
                     order = mess["order"]
                     catalog_id = order["catalog_id"]
@@ -80,6 +81,7 @@ def webhook(request):
                         wa_id=wa_id,
                         msg_id=mess["id"],
                         catalog_id = catalog_id,
+                        msg_type = msg_type
                         
 
                     
@@ -126,7 +128,7 @@ def webhook(request):
                 print(e)
             try:
 
-                ca = commcerce_bot(cont_inst, msg)
+                ca = commcerce_bot(cont_inst, msg,data)
                 ca.check_and_send()
                 pass
             except Exception as e:
