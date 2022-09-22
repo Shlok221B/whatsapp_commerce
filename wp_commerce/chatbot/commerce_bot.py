@@ -27,7 +27,7 @@ class commcerce_bot:
 
     def formatt(self):
         mess = self.data["messages"][0]
-        formatted_msg = ":sparkles: We have added the following to your cart.\n"
+        formatted_msg = "✨ *We have added the following to your cart.*🛒\n"
         cart_total = 0
         if  mess["type"] == "order":
             product_items = mess["order"]["product_items"]
@@ -41,12 +41,12 @@ class commcerce_bot:
                 get_product_name = MasterProducts.objects.get(product_id=product)
                 total_price = quantityy*get_product_name.price
                 cart_total = cart_total + int(total_price)
-                formatted_msg = formatted_msg + "\n" + "👉 " + str(quantityy) + " units of " + str(get_product_name.product_name) + " Total = " + str(total_price)
+                formatted_msg = formatted_msg + "\n" + "👉 " + str(quantityy) + " unit of " + str(get_product_name.product_name) + " Total = " + str(total_price)
                 formatted_msg = formatted_msg + "\n\n*Cart Total = *" + str(cart_total)
             print(formatted_msg)
             return str(formatted_msg)
         return ""
-            
+   
 
     def update_authkey(self):
         print("in auth")
@@ -76,6 +76,7 @@ class commcerce_bot:
         email = self.cont_inst.email
         address = self.cont_inst.address
         pincode = self.cont_inst.pincode 
+       
         
         replies = {
 
@@ -87,12 +88,16 @@ class commcerce_bot:
             'necklaces': {"recipient_type": "individual","to": phone,"type": "interactive","interactive": {"type": "product_list","header": {"type": "text","text": "theinfinityboom"},"body": {"text": "Shop Latest Varities"},"footer": {"text": "click to view"},"action": {"catalog_id": "816282966199042","sections": [{"title": "Necklace","product_items": [{"product_retailer_id": "41914703511731"},{"product_retailer_id": "41914699579571"},{"product_retailer_id": "41914689913011"}]}]}}},
             'rings' : {"recipient_type": "individual","to": phone,"type": "interactive","interactive": {"type": "product_list","header": {"type": "text","text": "theinfinityboom"},"body": {"text": "Shop Latest Varities"},"footer": {"text": "click to view"},"action": {"catalog_id": "816282966199042","sections": [{"title": "Rings","product_items": [{"product_retailer_id": "41914682474675"},{"product_retailer_id": "41883923644595"},{"product_retailer_id": "2123123"},{"product_retailer_id": "41883919745203"},{"product_retailer_id": "41914696892595"},{"product_retailer_id": "41883930886323"}]}]}}},
 
-            'final' : {"to": phone,"type": "text","recipient_type": "individual","text": {"body": "Please Confirm your details\n\n" "Name:"+name+"\nEmail:"+email+"\nAddress:"+address+"\nPincode:"+pincode}},
-            'name' : {"to": phone,"type": "text","recipient_type": "individual","text": {"body": "Please provide your name\n\n eg Jhon Doe"}},
+            'final' : {"to": phone,"recipient_type": "individual","type": "interactive","interactive": {"type": "button","body": {"text":"*Please Confirm your details* 📝\n\n" "Name: " + name +"\nEmail: " + email+"\nAddress: "+ address +"\nPincode: "+pincode},"action": {"buttons": [{"type": "reply","reply": {"id": "Button 1 Text","title": "Yes"}},{"type": "reply","reply": {"id": "Button 2 Text","title": "No"}}]}}},
+            'name' : {"to": phone,"type": "text","recipient_type": "individual","text": {"body": "Please provide the name that you want to order from\n *eg Anurag Kumar*"}},
             'email' : {"to": phone,"type": "text",  "recipient_type": "individual","text": {"body": "Please provide your email id ✉"}},
-            'confirm' : {"to": phone,"recipient_type": "individual","type": "interactive","interactive": {"type": "button","body": {"text": self.formatt()},"footer": {"text": "Choose an option by clicking on any button below:"},"action": {"buttons": [{"type": "reply","reply": {"id": "Button 1 Text","title": "Proceed to checkout"}},{"type": "reply","reply": {"id": "Button 2 Text","title": "Exit"}}]}}},
-            'pincode' : {"to": phone,"type": "text","recipient_type": "individual","text": {"body": "Please enter your pincode"}},
-            'address' : {"to": phone,"type": "text","recipient_type": "individual","text": {"body": "Please enter your Shiping Address :round_drawing_pin:\n\n(House no. ,Street, Locality, City, State"}},
+            'confirm' : {"to": phone,"recipient_type": "individual","type": "interactive","interactive": {"type": "button","body": {"text": self.formatt()},"footer": {"text": "Choose an option by clicking on any button below:"},"action": {"buttons": [{"type": "reply","reply": {"id": "Button 1 Text","title": "Proceed to checkout"}},{"type": "reply","reply": {"id": "Button 2 Text","title": "Explore Categories"}}]}}},
+            'pincode' : {"to": phone,"type": "text","recipient_type": "individual","text": {"body": "*Please enter your pincode*🔍"}},
+            
+            'cod'  :  {"to": phone,"recipient_type": "individual","type": "interactive","interactive": {"type": "button","body": {"text": "Please choose your mode of payment.\n\n👉  *Rs 99.00* extra will be charged for all *COD* orders \n\n"},"action": {"buttons": [{"type": "reply","reply": {"id": "<ID 1.4>","title": "Cash On Delivery"}},{"type": "reply","reply": {"id": "<ID 1.5>","title": "Online Payment"}},{"type": "reply","reply": {"id": "<ID 1.6>","title": "Main Menu"}}]}}},
+            'cashondeliveryconfirm': {"to": phone,"type": "text","recipient_type": "individual","text": {"body": "Your order has been confirmed, It will be delivered shortly"}},
+            'paymentlink': {"to": phone,"type": "text","text": {"body": "Here is your payment link to order\n https://www.https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04"}},
+            'address' : {"to": phone,"type": "text","recipient_type": "individual","text": {"body": "*Please enter your Shiping Address* 📍\n\n(𝘏𝘰𝘶𝘴𝘦 𝘯𝘰 ,𝘚𝘵𝘳𝘦𝘦𝘵, 𝘓𝘰𝘤𝘢𝘭𝘪𝘵𝘺, 𝘊𝘪𝘵𝘺, 𝘚𝘵𝘢𝘵𝘦)"}},
             'help' : {"to": phone,"recipient_type": "individual","type": "interactive","interactive": {"type": "button","header": {"type": "text","text": "Help"},"body": {"text": "For more information visit us at www.infinityboom.com\nContact us at 919762330859."},"action": {"buttons": [{"type": "reply","reply": {"id": "<Button 1>","title": "Exit"}}]}}}
             }
                 ################################ AUTHKEY FUNCTION ########################
@@ -199,7 +204,7 @@ class commcerce_bot:
         if cont.flow == "confirm/pincode/address/email" and msg_inst.msg_type == "text":
             self.cont_inst.email = text
             self.send_message("name")
-            self.cont_inst.flow = "confirm/pincode/address/email" 
+            self.cont_inst.flow = "confirm/pincode/address/email/name" 
             self.cont_inst.save()
             return None 
 
@@ -209,3 +214,27 @@ class commcerce_bot:
             self.cont_inst.flow = "confirm/final" 
             self.cont_inst.save()
             return None 
+        
+        
+        if cont.flow == "confirm/final" and msg_inst.msg_type == "interactive":
+            if self.msg_inst.interactive_id == "Button 1 Text":
+                self.send_message("cod")
+                self.cont_inst.flow = "confirm/final/cod"
+            elif self.msg_inst.interactive_id == "Button 2 Text":
+                self.send_message("pincode")
+                self.cont_inst.flow = "confirm/pincode"
+            self.cont_inst.save()
+            return None
+        
+        if cont.flow == "confirm/final/cod" and msg_inst.msg_type == "interactive":
+            if self.msg_inst.interactive_id == "<ID 1.4>":
+                self.send_message("cashondeliveryconfirm")
+                self.cont_inst.flow = "confirm/final/cod/cashondeliveryconfirm"
+            elif self.msg_inst.interactive_id == "<ID 1.5>":
+                self.send_message("paymentlink")
+                self.cont_inst.flow = "confirm/final/cod/paymentlink"
+            elif self.msg_inst.interactive_id == "<ID 1.6>":
+                self.send_message("greetings")
+                self.cont_inst.flow = "home/grt"
+            self.cont_inst.save()
+            return None
